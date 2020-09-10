@@ -1,0 +1,33 @@
+a:hover {
+  text-decoration: none;
+}
+
+div#heatmap {
+  display: flex;
+  justify-content: start;
+  width: 800px;
+}
+
+#mainapp {
+  overflow-x: none;
+  display: flex;
+  justify-content: center;
+}
+
+div#tooltip {
+  position: absolute;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  background-color: gold;
+}
+
+#about div.container {
+  width: 800px;
+}
+
+@media screen and (max-width:800px) {
+  #mainapp {
+    justify-content: start;
+  }
+}
