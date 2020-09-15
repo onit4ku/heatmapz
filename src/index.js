@@ -5,7 +5,11 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <div id="container">
+      <div id="app">
+      </div>
+    </div>
+
   </React.StrictMode>,
   document.getElementById('root')
 );
@@ -14,3 +18,5 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+ReactDOM.render(<App />, document.getElementById('app'))

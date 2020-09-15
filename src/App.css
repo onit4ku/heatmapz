@@ -8,7 +8,7 @@ div#heatmap {
   width: 800px;
 }
 
-#mainapp {
+#mainApp {
   overflow-x: none;
   display: flex;
   justify-content: center;
@@ -19,15 +19,15 @@ div#tooltip {
   padding: 10px;
   border-radius: 10px;
   text-align: center;
-  background-color: gold;
+  background-color: white;
 }
 
 #about div.container {
   width: 800px;
 }
 
-@media screen and (max-width:800px) {
-  #mainapp {
+@media screen and (max-width: 800px) {
+  #mainApp {
     justify-content: start;
   }
 }

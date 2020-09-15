@@ -2,9 +2,9 @@ import React from 'react';
 
 function Heatmap() {
 
+  const url = "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/global-temperature.json";
   const d3 = require("d3");
 
-  const url = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json";
   const req = new XMLHttpRequest();
   req.open('GET', url, true);
   req.send();
@@ -16,35 +16,41 @@ function Heatmap() {
     // data loading ---- request success
 
     // svg width, height and padding
-    var w = 800;
+    const w = 800;
     const h = 500;
-    const pad = 70;
-
+    const pad = 80;
 
     // console.log(dataset.length) //3153
     const cellWidth = w / Math.ceil(dataset.length / 20);
     const cellHeight = (h - pad) / 12;
-    const colors = [['tomato', '< 7'], ['orange', '7-8'], ['gold', '8-9'], ['red', '> 9']];
+
+    // color theme config
+    const color0 = 'rgb(245 244 148)';
+    const color1 = '#e9c46a';
+    const color2 = '#f4a261';
+    const color3 = '#e76f51';
+    const bckColor = 'white';
+
+    const colors = [[color0, '< 7'], [color1, '7-8'], [color2, '8-9'], [color3, '> 9']];
 
     const year = d3.extent(dataset.map(d => d.year));
     const minYear = year[0];
     const maxYear = year[1];
 
-    const month = d3.extent(dataset.map(d => d.month))
+    // const month = d3.extent(dataset.map(d => d.month))
     // const minMonth = month[0];
     // const maxMonth = month[1];
     const january = new Date('1970-1-1');
     const december = new Date('1970-12-1');
 
     const variance = d3.extent(dataset.map(d => d.variance));
-    const minVariance = variance[0];
-    const maxVariance = variance[1];
-
+    // const minVariance = variance[0];
+    // const maxVariance = variance[1];
 
     const svg = d3.select('div#heatmap').append('svg')
       .attr('width', w)
       .attr('height', h)
-      .style('background-color', 'silver')
+      .style('background-color', bckColor)
 
     const xScale = d3.scaleLinear()
       .domain([minYear, maxYear])
@@ -52,7 +58,6 @@ function Heatmap() {
 
     const xAxis = d3.axisBottom(xScale)
       .tickFormat(d3.format('d'));
-
 
     svg.append('g')
       .attr('id', 'x-axis')
@@ -79,7 +84,7 @@ function Heatmap() {
       .attr('y', 30)
       .style('font-size', '1.5rem');
 
-    // desctiption
+    // description
     svg.append('text')
       .attr('id', 'description')
       .text(`Land Surface Temperature, Base Temperature ${base}`)
@@ -91,10 +96,11 @@ function Heatmap() {
     const tooltip = d3.select('#heatmap')
       .append('div')
       .attr('id', 'tooltip')
-      .style('opacity', 0);
+      .style('opacity', 0)
+      .attr("class", "d3-tip")
+      .attr("id", "tooltip")
 
-
-    // data presentaton 
+    // data presentation 
     svg.selectAll('rect')
       .data(dataset)
       .enter()
@@ -102,7 +108,7 @@ function Heatmap() {
       .attr('class', 'cell')
       .attr('width', cellWidth)
       .attr('height', cellHeight)
-      .attr('fill', d => d.variance + base < 7 ? 'tomato' : d.variance + base < 8 ? 'orange' : d.variance + base < 9 ? 'gold' : 'red')
+      .attr('fill', d => d.variance + base < 7 ? color0 : d.variance + base < 8 ? color1 : d.variance + base < 9 ? color2 : color3)
       .attr('x', (d, i) => xScale(d.year))
       .attr('y', (d, i) => yScale(new Date(`1970-${d.month}-1`)))
       .attr('data-month', d => d.month - 1)
@@ -122,8 +128,7 @@ function Heatmap() {
           .style('top', 0);
       });
 
-
-    //legend
+    // legend
     svg.append('g')
       .attr('id', 'legend')
       .selectAll('rect')
@@ -147,7 +152,7 @@ function Heatmap() {
   }
 
   return (
-    <div id="mainapp" className="container">
+    <div id="mainApp" className="container">
       <div id='heatmap'>
       </div>
     </div>
