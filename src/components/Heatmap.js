@@ -1,9 +1,10 @@
 import React from 'react';
+const d3 = require("d3");
+const url = "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/global-temperature.json";
+
+d3.json(url).then(data => console.log(data))
 
 function Heatmap() {
-
-  const url = "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/global-temperature.json";
-  const d3 = require("d3");
 
   const req = new XMLHttpRequest();
   req.open('GET', url, true);
@@ -38,12 +39,10 @@ function Heatmap() {
     const maxYear = year[1];
 
     // const month = d3.extent(dataset.map(d => d.month))
-    // const minMonth = month[0];
-    // const maxMonth = month[1];
     const january = new Date('1970-1-1');
     const december = new Date('1970-12-1');
 
-    const variance = d3.extent(dataset.map(d => d.variance));
+    // const variance = d3.extent(dataset.map(d => d.variance));
     // const minVariance = variance[0];
     // const maxVariance = variance[1];
 
@@ -91,14 +90,11 @@ function Heatmap() {
       .attr('x', w / 3 - 5)
       .attr('y', 50);
 
-
     // declare tooltip
     const tooltip = d3.select('#heatmap')
       .append('div')
       .attr('id', 'tooltip')
       .style('opacity', 0)
-      .attr("class", "d3-tip")
-      .attr("id", "tooltip")
 
     // data presentation 
     svg.selectAll('rect')
@@ -116,12 +112,12 @@ function Heatmap() {
       .attr('data-temp', d => d.variance)
       .on('mouseover', (d, i) => {
         tooltip.style('opacity', 1)
-          .style('left', (d3.event.pageX + 10) + 'px')
-          .style('top', (d3.event.pageY - 20) + 'px')
+          // .style('left', (d3.event.pageX + 10) + 'px')
+          // .style('top', (d3.event.pageY - 20) + 'px')
           .attr('data-year', d.year)
           .html(`${d3.timeFormat('%B')(new Date(1970, d.month - 1))}, ${d.year} <br/>${(d.variance + base).toFixed(3)}°C <br/>Variance: ${d.variance}`)
-
       })
+     
       .on('mouseout', (d, i) => {
         tooltip.style('opacity', 0)
           .style('left', 0)
